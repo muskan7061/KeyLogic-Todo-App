@@ -3,14 +3,23 @@ import { MdDelete } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import './MyToDo.css'
 
+const todosKey = "reactTodo"
 export default function MyToDo() {
+  const [task, setTask] = useState(() =>
+  {
+    const rawTodos = localStorage.getItem(todosKey)
+    if(!rawTodos) return []
+    return JSON.parse(rawTodos)
+
+  });
   const [inputValue, setInputValue] = useState("");
-  const [task, setTask] = useState([]);
   const [dateTime, setDateTime] = useState("");
-  const [editIndex, setEditIndex] = useState(null); // Track index for editing
+  const [editIndex, setEditIndex] = useState(null); //index for editing
 
   // add data to local storage 
-
+  localStorage.setItem("reactTodo", JSON.stringify(task))
+  
+ // handle input change
   const handleInputchange = (value) => {
     setInputValue(value);
   };
@@ -45,7 +54,7 @@ export default function MyToDo() {
     const updatedTask = task.filter((curElem) => curElem !== value);
     setTask(updatedTask);
   };
-  
+
 
   // Clear All 
   const handleClearAll = () => {
